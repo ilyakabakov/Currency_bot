@@ -1,0 +1,1 @@
+from database.parser import CurrencyParser
