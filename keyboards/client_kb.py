@@ -1,10 +1,25 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram import types
+from aiogram.types import InlineKeyboardMarkup
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-start_page_kb = InlineKeyboardMarkup(row_width=5)
 
-start_page_btn_1 = InlineKeyboardButton(text='GEL', callback_data='/gel')
-start_page_btn_2 = InlineKeyboardButton(text='USD', callback_data='/usd')
-start_page_btn_3 = InlineKeyboardButton(text='Цена из GEL в RUB', callback_data='/price_gel_to_rub')
+def get_menu_keyboard() -> InlineKeyboardMarkup:
+    kb = InlineKeyboardBuilder()
+    btns = [
+        types.InlineKeyboardButton(text='GEL', callback_data='gel'),
+        types.InlineKeyboardButton(text='USD', callback_data='usd'),
+        types.InlineKeyboardButton(text='KZT', callback_data='kzt'),
+        types.InlineKeyboardButton(text='Цена из GEL в RUB', callback_data='price_gel_to_rub'),
+    ]
+    kb.add(*btns)
+    kb.adjust(3)
+    return kb.as_markup(resize_keyboard=True)
 
-start_page_kb.add(start_page_btn_1,
-                  start_page_btn_2).add(start_page_btn_3)
+def cancel_kb() -> InlineKeyboardMarkup:
+    kb = InlineKeyboardBuilder()
+    btn = [
+        types.InlineKeyboardButton(text='Cancel', callback_data='cancel')
+    ]
+    kb.add(*btn)
+    kb.adjust(1)
+    return kb.as_markup(resize_keyboard=True)

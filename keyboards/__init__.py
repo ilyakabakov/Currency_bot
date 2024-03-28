@@ -1,1 +1,1 @@
-from keyboards.client_kb import start_page_kb
+from keyboards.client_kb import get_menu_keyboard, cancel_kb

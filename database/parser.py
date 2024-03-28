@@ -1,11 +1,6 @@
-import asyncio
-
-
 
 import json
-
 import requests
-
 from database.config import URL, FILE_NAME
 
 
@@ -37,11 +32,3 @@ class CurrencyParser:
 
         return self.data.get(query)
 
-
-async def main():
-    parser = CurrencyParser()
-
-    # Обновляем данные каждые полчаса
-    while True:
-        await parser.update_data()
-        await asyncio.sleep(1800)  # 1800 секунд = 30 минут

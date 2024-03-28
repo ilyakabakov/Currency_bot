@@ -1,28 +1,35 @@
+import asyncio
 import logging
 import os
 
-from aiogram.utils import executor
-
-from initialize import dp
+from handlers import client
+from initialize import dp, bot
 
 cwd = os.getcwd()
 
 logging.basicConfig(filename=os.path.join(cwd, 'logs/main.log'))
 
+ALLOWED_UPDATES = [
+    'message',
+    'edited_message',
+    'callback_query'
+]
 async def if_started():
+    try:
+        print('Bot is ONLINE')
+        dp.include_router(
+            client.router
+        )
+        await bot.delete_webhook(drop_pending_updates=True)
+        await dp.start_polling(bot,
+                               allowed_updates=ALLOWED_UPDATES)
+    except Exception as ex:
+        print(f"failed to start: {ex}")
 
-    print('Bot is ONLINE')
 
-
-async def on_startup(dp):
-    await if_started()
 
 if __name__ == '__main__':
     try:
-        executor.start_polling(dp, skip_updates=True,
-                               on_startup=on_startup
-                               #on_shutdown=on_shutdown
-                                )
-
+        asyncio.run(if_started())
     except Exception as ex:
         print(f"FAILED: {ex}")
